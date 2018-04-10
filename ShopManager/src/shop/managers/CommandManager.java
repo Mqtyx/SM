@@ -22,17 +22,13 @@ public class CommandManager implements CommandExecutor {
 		{
 			return false;
 		}
-		
 		Player plr = (Player) sender;
 		List<Shop> myShops = Shop.getShopsFromUUID(plr);
-		
 		if (args.length == 0) {
 			Utils.showGuide(plr);
 			return true;
 		}
-		
 		String func = args[0];
-		
 		if(func.equalsIgnoreCase("myshops")) {
 			plr.sendMessage(ChatColor.GOLD + "------------------------>");
 			plr.sendMessage(ChatColor.GOLD + "[*] " + ChatColor.BLUE + "You have " + myShops.size() + " shops!");
@@ -49,51 +45,37 @@ public class CommandManager implements CommandExecutor {
 				plr.sendMessage(ChatColor.DARK_PURPLE + "[" + ChatColor.DARK_AQUA + id + ChatColor.DARK_PURPLE + "] Selling " + howMuch + " " 
 				+ itemToSell + " for " + forHowMuch + " " + price);
 			}
-			
 			plr.sendMessage(ChatColor.GOLD + "------------------------>");
-			
 			return true;
 		}
-		
 		if(func.equalsIgnoreCase("mylogs")) {
 			plr.sendMessage(ChatColor.GOLD + "------------------------>");
 			plr.sendMessage(ChatColor.GOLD + "YOUR SHOPS' LOGS:");
 			plr.sendMessage(ChatColor.GOLD + "------------------------>");
-			
 			for (Shop e : myShops) {
 				String id = e.getShopId();
 				ShopLogger logger = e.getShopLogger();
-				
 				for (String log : logger.getLog()) {
 					plr.sendMessage(ChatColor.DARK_PURPLE + "[" + ChatColor.DARK_AQUA + id + ChatColor.DARK_PURPLE + "] " + log);
 				}
 			}
-			
 			plr.sendMessage(ChatColor.GOLD + "------------------------>");
-			
 			return true;
 		}
-		
 		if(func.equalsIgnoreCase("mychests")) {
 			plr.sendMessage(ChatColor.GOLD + "------------------------>");
 			plr.sendMessage(ChatColor.GOLD + "YOUR CHESTS:");
 			plr.sendMessage(ChatColor.GOLD + "------------------------>");
-			
 			for (Shop e : myShops) {
 				String id = e.getShopId();
 				Material itemToSell = e.getItemToSell();
 				String itemToSellName = Utils.getNameByMaterial(e.getItemToSell());
-				
 				int howMuch = e.getHowMuch();
-				
 				Chest chest = (Chest) e.getBlockAttached().getState();
-				
 				if (!Utils.containsMaterial(chest.getInventory(), itemToSell, howMuch)) {
 					plr.sendMessage(ChatColor.DARK_PURPLE + "[" + ChatColor.DARK_AQUA + id + ChatColor.DARK_PURPLE + "] Shop is out of stock.");
-					
 					continue;
 				}
-				
 				int howMany = Utils.getSizeOfItem(chest.getInventory(), itemToSell);
 				plr.sendMessage(ChatColor.DARK_PURPLE + "[" + ChatColor.DARK_AQUA + id + ChatColor.DARK_PURPLE + "] Shop has " + howMany + " " + itemToSellName + " available.");
 			}
