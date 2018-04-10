@@ -1,0 +1,6 @@
+name: ShopManager
+main: shop.main.Main
+version: 1.0.0
+commands:
+  ts:
+    description: Shop
