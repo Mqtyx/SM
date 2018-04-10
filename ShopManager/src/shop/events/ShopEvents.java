@@ -33,28 +33,21 @@ public class ShopEvents implements Listener {
 		if (shopAttached != null) {
 			if (!shopAttached.isOwner(e.getPlayer().getUniqueId())) {
 				e.setCancelled(true);
-				
 				return;
 			}
 		}
-		
 		if (shopBlock != null) {
 			if (!shopBlock.isOwner(e.getPlayer().getUniqueId())) {
 				e.setCancelled(true);
-				
 				return;
 			}
 		}
-		
 		if (shopBlock != null) {
 			Shop.shops.remove(shopBlock);
-			
 			Main.INSTANCE.getConfig().getConfigurationSection("Shops." + shopBlock.getOwnerUUID()).set(shopBlock.getShopId(), null);
 		}
-		
 		if (shopAttached != null) {
 			Shop.shops.remove(shopAttached);
-			
 			Main.INSTANCE.getConfig().getConfigurationSection("Shops." + shopAttached.getOwnerUUID()).set(shopAttached.getShopId(), null);
 		}
 	}
@@ -64,11 +57,9 @@ public class ShopEvents implements Listener {
 	    if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 	        if(e.getClickedBlock().getType().equals(Material.CHEST)) {
 	        	Shop shop = Shop.getShopFromAttachedBlock(e.getClickedBlock());
-	        	
 	        	if (shop == null) {
 	        		return;
 	        	}
-	        	
 	        	if (!shop.isOwner(e.getPlayer().getUniqueId())) {
 	        		e.getPlayer().sendMessage(ChatColor.DARK_RED + "You can't open someone's shop.");
 	        		e.setCancelled(true);
@@ -82,42 +73,31 @@ public class ShopEvents implements Listener {
 		if (e.getAction() != Action.RIGHT_CLICK_BLOCK) {
 			return;
 		}
-		
 		if (e.getClickedBlock().getType() != Material.WALL_SIGN && e.getClickedBlock().getType() != Material.SIGN_POST) {
 			return;
 		}
-		
 		Shop shop = Shop.getShopFromBlock(e.getClickedBlock());
-		
 		if (shop == null) {
 			return;
 		}
-		
 		Player player = e.getPlayer();
-		
 		Chest chest = (Chest) shop.getBlockAttached().getState();
-		
 		Material itemToSell = shop.getItemToSell();
 		Material price = shop.getPrice();
-		
 		int howMuch = shop.getHowMuch();
 		int forHowMuch = shop.getForHowMuch();
-		
 		if (shop.isOwner(player.getUniqueId())) {
 			player.sendMessage(ChatColor.DARK_RED + "You can't buy from your own shop.");
 			return;
 		}
-
 		if (!Utils.containsMaterial(chest.getInventory(), itemToSell, howMuch)) {
 			player.sendMessage(ChatColor.DARK_RED + "Shop is out of stock at the moment, please come back later!");
 			return;
 		}
-		
 		if (!Utils.hasAvaliableSlot(player)) {
 			player.sendMessage(ChatColor.DARK_RED + "You should have available slot before buying something.");
 			return;
 		}
-		
 		if (!player.getInventory().containsAtLeast(new ItemStack(price), forHowMuch)) {
 			int amount = Utils.getPlayerItemAmount(player, price);
 			String difference = String.valueOf(forHowMuch - amount);
@@ -125,23 +105,16 @@ public class ShopEvents implements Listener {
 			player.sendMessage(ChatColor.DARK_RED + "You should have " + difference + " " + Utils.getNameByMaterial(price) + " in order to buy " + howMuch + " " + Utils.getNameByMaterial(itemToSell) + ".");
 			return;
 		}
-		
 		ItemStack itemStack = Utils.getContent(player, chest.getInventory(), itemToSell, howMuch);
-		
 		player.sendMessage(ChatColor.DARK_GREEN + "Successfully bought " + howMuch + " " + Utils.getNameByMaterial(itemToSell) + "!");
-		
 		chest.getInventory().addItem(new ItemStack(price, forHowMuch));
 		player.getInventory().addItem(itemStack);
-		
 		Utils.sendMessageIfOnline(shop, ChatColor.GOLD + "[*] " + ChatColor.BLUE + player.getName() + " has bought " + shop.getHowMuch() + " " + Utils.getNameByMaterial(shop.getItemToSell()) + " from your shop!");
-	
 		if (!Utils.containsMaterial(chest.getInventory(), itemToSell, howMuch)) {
 			Utils.sendMessageIfOnline(shop, ChatColor.GOLD + "[" + ChatColor.BLUE + shop.getShopId() + ChatColor.DARK_PURPLE + "] " + ChatColor.GOLD + " Shop has been out of stock.");
 		}
-		
 		Utils.removeAmountInventory(chest.getInventory(), howMuch, itemToSell);
 		Utils.removeAmountInventory(player.getInventory(), forHowMuch, price);
-		
 		Utils.addLog(shop, player.getName() + " has bought " + shop.getHowMuch() + " " + Utils.getNameByMaterial(shop.getItemToSell()) + " from your shop!");
 	}
 	
@@ -149,17 +122,13 @@ public class ShopEvents implements Listener {
 	public void onPlayerEditSign(SignChangeEvent e) {
 		Sign sign = (Sign) e.getBlock().getState().getData();
         Block attached = e.getBlock().getRelative(sign.getAttachedFace());
-        
         if (attached.getType() != Material.CHEST) {
         	return;
         }
-		
 		boolean success = Utils.addSignShop(e);
-		
 		if (!success) {
 			return;
 		}
-		
 		// CREATESHOP
 		// AMOUNT OF THE SELLING ITEM
 		// PRICE AND HOW MUCH
