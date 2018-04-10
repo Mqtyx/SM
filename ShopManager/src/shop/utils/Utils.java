@@ -55,6 +55,7 @@ public class Utils {
 	    Utils.guideList.put("addowner <shopId> <playerName>", "Adds owner to your shop to manage it.");
 	    Utils.guideList.put("removeowner <shopId> <playerName>", "Removes owner from your shop.");
 
+	    if(Main.INSTANCE.getConfig().getConfigurationSection("Shops") != null)
 	    for (String playerUUID : Main.INSTANCE.getConfig().getConfigurationSection("Shops").getKeys(false))
 	    {
 		    for (String shopId : Main.INSTANCE.getConfig().getConfigurationSection("Shops." + playerUUID).getKeys(false))
