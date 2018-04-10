@@ -21,14 +21,20 @@ import com.google.common.collect.Maps;
 import shop.data.Shop;
 import shop.main.Main;
 
-@SuppressWarnings("deprecation")
 public class Utils {
 	public static Map<String, String> guideList = Maps.newHashMap();
 	
     public static boolean isInteger(String s) {
-        return isInteger(s,10);
+    	try
+    	{
+    		Integer.parseInt(s);
+    	} catch (Exception e) {
+    		return false;
+    	}
+    	return true;
     }
 
+    /*
     public static boolean isInteger(String s, int radix) {
         if(s.isEmpty()) return false;
         for(int i = 0; i < s.length(); i++) {
@@ -39,7 +45,7 @@ public class Utils {
             if(Character.digit(s.charAt(i),radix) < 0) return false;
         }
         return true;
-    }
+    }*/
 
 	public static void setupShops() {
 	    Utils.guideList.put("myshops", "Displays your running shops.");
