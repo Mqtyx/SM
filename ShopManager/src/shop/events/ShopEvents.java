@@ -30,7 +30,6 @@ public class ShopEvents implements Listener {
 		Block brokenBlock = e.getBlock();
 		Shop shopBlock = Shop.getShopFromBlock(brokenBlock);
 		Shop shopAttached = Shop.getShopFromAttachedBlock(brokenBlock);
-		
 		if (shopAttached != null) {
 			if (!shopAttached.isOwner(e.getPlayer().getUniqueId())) {
 				e.setCancelled(true);
