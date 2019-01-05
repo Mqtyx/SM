@@ -7,9 +7,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<target>1.8.0</target>
 	</properties>
+	
 	<prerequisites>
 		<maven>3.0</maven>
 	</prerequisites>
+	
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
